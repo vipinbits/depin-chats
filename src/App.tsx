@@ -8,6 +8,7 @@ type Cluster = {
   maxDevices: number; 
   connectedDevices: number; 
   status: string;
+  model?: string
   promptUrl?: string;
   accepting?: boolean;
   devices?: { Active: number, Syncing: number };
@@ -160,6 +161,7 @@ function ChatPane({ cluster }: { cluster?: Cluster }) {
       send();
     }
   }
+  console.log("cluster",cluster)
 
   const header = (
     <div style={{ padding: '10px 16px', borderBottom: '1px solid #e2e8f0', background: '#fff', display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -168,6 +170,9 @@ function ChatPane({ cluster }: { cluster?: Cluster }) {
       </div>
       <div style={{ fontWeight: 600 }}>
         {cluster ? `Cluster ${cluster.clusterId.slice(-8)}` : 'Select a cluster'}
+      </div>
+      <div style={{ marginLeft: 'auto', fontSize: 12, color: '#64748b' }}>
+      Model: {cluster?.model}
       </div>
       <div style={{ marginLeft: 'auto', fontSize: 12, color: '#64748b' }}>
         {cluster?.devices?.Active ?? 0} devices active
@@ -314,12 +319,13 @@ export default function App() {
       const response = await fetch(`https://dev-api-depin.bitscrunch.com/api/v1/cluster/prompt/${cluster.clusterId}`)
       if (!response.ok) throw new Error(`HTTP ${response.status}`)
       const details = await response.json()
-      
+      console.log("details", details)
       const updatedCluster = {
         ...cluster,
         promptUrl: details.promptUrl,
         accepting: details.accepting,
-        devices: details.devices
+        devices: details.devices,
+        model: details.model
       }
       
       setActiveCluster(updatedCluster)
