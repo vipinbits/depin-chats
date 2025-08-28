@@ -114,7 +114,7 @@ function ChatPane({ cluster }: { cluster?: Cluster }) {
     try {
       let url 
       if (!cluster.promptUrl) {
-        url = "https://localhost:8080/chat"
+        url = "https://localhost:8080"
       } else {
         url = cluster.promptUrl
       }
