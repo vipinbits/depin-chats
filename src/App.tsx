@@ -1,4 +1,5 @@
 import {  useRef, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 
 type Cluster = { 
@@ -32,7 +33,25 @@ function Sidebar({ clusters, activeId, onSelect, loading }: {
         <div style={{ fontWeight: 600 }}>Depin</div>
       </div>
       <div style={{ padding: '10px 12px', borderBottom: '1px solid #e2e8f0' }}>
-        <button style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', textAlign: 'left', fontSize: 13 }}>New chat</button>
+        {/* <button style={{ width: '100%', padding: '8px 10px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', textAlign: 'left', fontSize: 13 }}>New chat</button> */}
+        <Link 
+          to="/assign-model" 
+          style={{ 
+            display: 'block',
+            width: '100%', 
+            padding: '8px 10px', 
+            borderRadius: 8, 
+            border: '1px solid #e2e8f0', 
+            background: '#fff', 
+            cursor: 'pointer', 
+            textAlign: 'left', 
+            fontSize: 13,
+            color: '#0f172a',
+            textDecoration: 'none'
+          }}
+        >
+          Assign Model
+        </Link>
       </div>
       <div style={{ padding: '6px 12px', color: '#64748b', fontSize: 11 }}>
         {loading ? 'Loading clusters...' : 'Chats'}
@@ -69,7 +88,11 @@ function Sidebar({ clusters, activeId, onSelect, loading }: {
         )}
       </div>
       <div style={{ marginTop: 'auto', padding: 12, borderTop: '1px solid #e2e8f0' }}>
-        <a href="#" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none' }}>Manage clusters</a>
+        {(!loading && clusters.length === 0) ? (
+          <Link to="/assign-model" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none' }}>Assign Model</Link>
+        ) : (
+          <a href="#" style={{ fontSize: 12, color: '#2563eb', textDecoration: 'none' }}>Manage clusters</a>
+        )}
       </div>
     </aside>
   )
